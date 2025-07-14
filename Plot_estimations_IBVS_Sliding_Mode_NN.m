@@ -95,8 +95,8 @@ t = tiledlayout(1, 1, 'TileSpacing', 'none', 'Padding', 'none'); % Remove all ma
 
 nexttile;
 plot3(xdes, ydes, zdes, 'k--', 'LineWidth', 2.5, 'DisplayName', 'Desired'); hold on;
-plot3(x_with_nn, y_with_nn, z_with_nn, 'b-', 'LineWidth', 2.5, 'DisplayName', 'NN-SMC Method');
-plot3(x_no_nn, y_no_nn, z_no_nn, 'r-', 'LineWidth', 2.5, 'DisplayName', 'SMC Method');
+plot3(x_with_nn, y_with_nn, z_with_nn, 'b-', 'LineWidth', 2.5, 'DisplayName', 'NN-SMC');
+plot3(x_no_nn, y_no_nn, z_no_nn, 'r-', 'LineWidth', 2.5, 'DisplayName', 'SMC');
 
 grid on;
 xlabel('$x$ [m]', 'Interpreter', 'latex', 'FontSize', 22);
@@ -125,8 +125,8 @@ t = tiledlayout(3, 1, 'TileSpacing', 'compact', 'Padding', 'compact'); % 3 stack
 % First Plot: phi
 nexttile;
 hold on;
-plot(tout, phi_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\phi$ NN-SMC Method');
-plot(tout, phi_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\phi$ without NN');
+plot(tout, phi_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\phi$ NN-SMC');
+plot(tout, phi_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\phi$ SMC');
 ylabel('$\phi$ (deg)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
@@ -136,8 +136,8 @@ xlim([0 76]);
 % Second Plot: theta
 nexttile;
 hold on;
-plot(tout, theta_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\theta$ NN-SMC Method');
-plot(tout, theta_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\theta$ without NN');
+plot(tout, theta_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\theta$ NN-SMC');
+plot(tout, theta_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\theta$ SMC');
 ylabel('$\theta$ (deg)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
@@ -147,8 +147,8 @@ xlim([0 76]);
 % Third Plot: psi
 nexttile;
 hold on;
-plot(tout, psi_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\psi$ NN-SMC Method');
-plot(tout, psi_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\psi$ without NN');
+plot(tout, psi_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$\psi$ NN-SMC');
+plot(tout, psi_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$\psi$ SMC');
 xlabel('Time (s)', 'Interpreter', 'latex', 'FontSize', 22);
 ylabel('$\psi$ (deg)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
@@ -178,8 +178,8 @@ t = tiledlayout(3, 1, 'TileSpacing', 'compact', 'Padding', 'compact'); % 3 stack
 % First Plot: x
 nexttile;
 hold on;
-plot(tout, x_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$x$ NN-SMC Method');
-plot(tout, x_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$x$ without NN');
+plot(tout, x_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$x$ NN-SMC');
+plot(tout, x_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$x$ SMC');
 ylabel('$x$ (m)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
@@ -189,8 +189,8 @@ xlim([0 76]);
 % Second Plot: y
 nexttile;
 hold on;
-plot(tout, y_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$y$ NN-SMC Method');
-plot(tout, y_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$y$ without NN');
+plot(tout, y_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$y$ NN-SMC');
+plot(tout, y_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$y$ SMC');
 ylabel('$y$ (m)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
@@ -200,8 +200,8 @@ xlim([0 76]);
 % Third Plot: z
 nexttile;
 hold on;
-plot(tout, z_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$z$ NN-SMC Method');
-plot(tout, z_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$z$ without NN');
+plot(tout, z_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$z$ NN-SMC');
+plot(tout, z_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$z$ SMC');
 xlabel('Time (s)', 'Interpreter', 'latex', 'FontSize', 22);
 ylabel('$z$ (m)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
@@ -231,9 +231,9 @@ t = tiledlayout(3, 1, 'TileSpacing', 'compact', 'Padding', 'compact'); % 3 stack
 % First Plot: xd
 nexttile;
 hold on;
-plot(tout, xd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$x_d$ NN-SMC Method');
-plot(tout, xd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$x_d$ without NN');
-ylabel('$x_d$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
+plot(tout, xd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$x_d$ NN-SMC');
+plot(tout, xd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$x_d$ SMC');
+ylabel('$\dot{x}$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
 set(gca, 'TickLabelInterpreter', 'latex', 'FontSize', 22);
@@ -242,9 +242,9 @@ xlim([0 76]);
 % Second Plot: yd
 nexttile;
 hold on;
-plot(tout, yd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$y_d$ NN-SMC Method');
-plot(tout, yd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$y_d$ without NN');
-ylabel('$y_d$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
+plot(tout, yd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$y_d$ NN-SMC');
+plot(tout, yd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$y_d$ SMC');
+ylabel('$\dot{y}$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
 set(gca, 'TickLabelInterpreter', 'latex', 'FontSize', 22);
@@ -253,10 +253,10 @@ xlim([0 76]);
 % Third Plot: zd
 nexttile;
 hold on;
-plot(tout, zd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$z_d$ NN-SMC Method');
-plot(tout, zd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$z_d$ without NN');
+plot(tout, zd_with, 'b-', 'LineWidth', 2.5, 'DisplayName', '$z_d$ NN-SMC');
+plot(tout, zd_no, 'r--', 'LineWidth', 2.5, 'DisplayName', '$z_d$ SMC');
 xlabel('Time (s)', 'Interpreter', 'latex', 'FontSize', 22);
-ylabel('$z_d$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
+ylabel('$\dot{z}$ (m/s)', 'Interpreter', 'latex', 'FontSize', 22);
 grid on;
 legend('Interpreter', 'latex', 'FontSize', 16, 'Location', 'best');
 set(gca, 'TickLabelInterpreter', 'latex', 'FontSize', 22);

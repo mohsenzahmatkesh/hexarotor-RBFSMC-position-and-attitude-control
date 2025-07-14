@@ -3,12 +3,13 @@
 
 // Struct for the state variables coming from Simulink
 struct __attribute__((packed)) StateAndParamsData {
-  float t;
-  float x, y, z;
-  float xd, yd, zd;
-  float xdd, ydd, zdd;
-  float phi, theta, psi;
-  float phid, thetad, psid;
+  // float t;
+  // float x, y, z;
+  // float xd, yd, zd;
+  // float xdd, ydd, zdd;
+  // float phi, theta, psi;
+  // float phid, thetad, psid;
+  float u1, u2, u3, u4;
 };
 
 // NEW: Struct for the controller outputs being sent back to Simulink
