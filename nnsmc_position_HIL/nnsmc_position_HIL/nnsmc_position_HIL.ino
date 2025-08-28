@@ -6,6 +6,7 @@ double Iy = 0.008;
 double Iz = 0.017;
 double c = 0.088;
 float W[14][10];
+float RBF_std[10][1];
 
 void nn_weight(float W[14][10]){
   for (int i = 0; i < 14; i++) {
@@ -14,8 +15,16 @@ void nn_weight(float W[14][10]){
     }
   }
 }
+
+void nn_RBF_std(float RBF_std[10][1]){
+  for (int i = 0; i < 10; i++)
+  RBF_std[i][1] = 1.2f + 3.0f*(float)rand() / (float)RAND_MAX;
+};
+
+
+
 void send_to_simulink() {
-  uint8_t buf[3 + 14*10*4];
+  uint8_t buf[3 + 14*10*4 + 10*4];
   buf[0] = 0xAA;
   buf[1] = 0xBB;
   buf[2] = 0xCC;
