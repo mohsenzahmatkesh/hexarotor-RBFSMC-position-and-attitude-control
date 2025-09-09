@@ -21,16 +21,33 @@ void nn_RBF_std(float RBF_std[10][1]){
   RBF_std[i][0] = 1.2f + 3.0f*(float)rand() / (float)RAND_MAX;
 }
 
-// void receive_from_simulink() {
-//   uint8_t buf[]
-// }
+void receive_from_simulink() {
+
+  uint8_t buf[3 + 24];
+  Serial.readBytes(buf, 27);
+  if (buf[0] == 0xAA && buf[1] == 0xBB && buf[2] == 0xCC) {
+    float* val = (float*)&buf[3];
+    float x = val[0];
+    float y = val[1];
+    float z = val[2];
+    float xd = val[3];
+    float yd = val[4];
+    float zd = val[5];
+    // memcpy(x, buf[3], 4);
+    // memcpy(y, buf[7], 4);
+    // memcpy(z, buf[11], 4);
+    // memcpy(xd, buf[15], 4);
+    // memcpy(yd, buf[19], 4);
+    // memcpy(zd, buf[23], 4);
+  }
+}
 
 void send_to_simulink() {
   uint8_t buf[3 + 10*4 + 14*10*4];
   buf[0] = 0xAA;
   buf[1] = 0xBB;
   buf[2] = 0xCC;
-
+ 
   memcpy(&buf[3], &RBF_std[0][0], 40);
   memcpy(&buf[43], &W[0][0], 560);
 
