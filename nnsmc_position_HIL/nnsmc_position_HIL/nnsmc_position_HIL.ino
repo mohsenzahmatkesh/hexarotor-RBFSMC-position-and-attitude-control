@@ -21,7 +21,9 @@ void nn_RBF_std(float RBF_std[10][1]){
   RBF_std[i][0] = 1.2f + 3.0f*(float)rand() / (float)RAND_MAX;
 }
 
-
+// void receive_from_simulink() {
+//   uint8_t buf[]
+// }
 
 void send_to_simulink() {
   uint8_t buf[3 + 10*4 + 14*10*4];
@@ -37,13 +39,13 @@ void send_to_simulink() {
 
 void setup() {
   Serial.begin(115200);
+  nn_weight(W);
+  nn_RBF_std(RBF_std);
   
   
 }
 
 void loop() {
-  nn_weight(W);
-  nn_RBF_std(RBF_std);
   send_to_simulink();
 }
 
