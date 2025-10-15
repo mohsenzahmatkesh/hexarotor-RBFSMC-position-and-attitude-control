@@ -23,32 +23,38 @@ void nn_RBF_std(float RBF_std[10][1]){
 
 void receive_from_simulink() {
 
-  uint8_t buf[3 + 56];
-  Serial.readBytes(buf, 59);
+  uint8_t buf[3 + 264];
+  Serial.readBytes(buf, 267);
   if (buf[0] == 0xAA && buf[1] == 0xBB && buf[2] == 0xCC) {
     float* val = (float*)&buf[3];
-    float x       = val[0];
-    float y       = val[1];
-    float z       = val[2];
-    float xd      = val[3];
-    float yd      = val[4];
-    float zd      = val[5];
-    float xdd     = val[6];
-    float ydd     = val[7];
-    float phi     = val[8];
-    float theta   = val[9];
-    float psi     = val[10];
-    float phid    = val[11];
-    float thetad  = val[12];
-    float psid    = val[13];
-    float xdes      = val[14];
-    float ydes      = val[15];
-    float zdes      = val[16];
-    float phides    = val[17];
-    float thetades  = val[18];
-    float psides    = val[19];
+    float x        = val[0];
+    float y        = val[1];
+    float z        = val[2];
+    float xd       = val[3];
+    float yd       = val[4];
+    float zd       = val[5];
+    float xdd      = val[6];
+    float ydd      = val[7];
+    float phi      = val[8];
+    float theta    = val[9];
+    float psi      = val[10];
+    float phid     = val[11];
+    float thetad   = val[12];
+    float psid     = val[13];
+    float xdes     = val[14];
+    float ydes     = val[15];
+    float zdes     = val[16];
+    float phides   = val[17];
+    float thetades = val[18];
+    float psides   = val[19];
+    float* M = &val[20];   // 40 floats (10x4 matrix)
+    float u1_prev  = val[60];
+    float u2_prev  = val[61];
+    float u3_prev  = val[62];
+    float u4_prev  = val[63];
   }
 }
+
 
 void send_to_simulink() {
   uint8_t buf[3 + 10*4 + 14*10*4];
