@@ -23,22 +23,30 @@ void nn_RBF_std(float RBF_std[10][1]){
 
 void receive_from_simulink() {
 
-  uint8_t buf[3 + 24];
-  Serial.readBytes(buf, 27);
+  uint8_t buf[3 + 56];
+  Serial.readBytes(buf, 59);
   if (buf[0] == 0xAA && buf[1] == 0xBB && buf[2] == 0xCC) {
     float* val = (float*)&buf[3];
-    float x = val[0];
-    float y = val[1];
-    float z = val[2];
-    float xd = val[3];
-    float yd = val[4];
-    float zd = val[5];
-    // memcpy(x, buf[3], 4);
-    // memcpy(y, buf[7], 4);
-    // memcpy(z, buf[11], 4);
-    // memcpy(xd, buf[15], 4);
-    // memcpy(yd, buf[19], 4);
-    // memcpy(zd, buf[23], 4);
+    float x       = val[0];
+    float y       = val[1];
+    float z       = val[2];
+    float xd      = val[3];
+    float yd      = val[4];
+    float zd      = val[5];
+    float xdd     = val[6];
+    float ydd     = val[7];
+    float phi     = val[8];
+    float theta   = val[9];
+    float psi     = val[10];
+    float phid    = val[11];
+    float thetad  = val[12];
+    float psid    = val[13];
+    float xdes      = val[14];
+    float ydes      = val[15];
+    float zdes      = val[16];
+    float phides    = val[17];
+    float thetades  = val[18];
+    float psides    = val[19];
   }
 }
 
