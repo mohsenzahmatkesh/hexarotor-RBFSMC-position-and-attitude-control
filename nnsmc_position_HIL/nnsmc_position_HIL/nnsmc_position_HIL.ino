@@ -77,27 +77,10 @@ void setup() {
 }
 
 void loop() {
+  receive_from_simulink();
   send_to_simulink();
 }
 
-// void readFromMatlab() {
-//   // Read bytes directly into the struct. This is efficient because the
-//   // struct is "packed" and matches the data order from Simulink's Mux block.
-//   byte* buffer = (byte*)&incomingData;
-//   Serial.readBytes(buffer, STATE_PACKET_SIZE);
-// }
-
-// /**
-//  * @brief Sends the entire 40-byte ControlData struct over the serial port.
-//  * @param data The ControlData struct to be sent.
-//  */
-// void writeToMatlab(const StateAndParamsData& data) {
-//   const byte* buffer = (const byte*)&data;
-//   Serial.write(buffer, sizeof(StateAndParamsData));
-//   Serial.write(13);
-//   Serial.write(10);
-// }
-// }
 
 
 
