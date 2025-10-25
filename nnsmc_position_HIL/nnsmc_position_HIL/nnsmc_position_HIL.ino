@@ -15,7 +15,7 @@ float phid, thetad, psid;
 float xdes, ydes, zdes;
 float phides, thetades, psides;
 float u1_prev, u2_prev, u3_prev, u4_prev;
-float M[10][4];   //10x4 matrix
+float W[10][4];   //10x4 matrix
 
 
 double phiddes = 0, phidddes = 0;
@@ -29,6 +29,8 @@ double Gamma = 100;
 
 float RBF_means[14][10];
 float RBF_std[10][1];
+float mu[10];
+float Delta_hat[4];
 
 void receive_from_simulink() {
 
@@ -59,7 +61,7 @@ void receive_from_simulink() {
 
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 4; j++) {
-        M[i][j] = val[20 + i * 4 + j];
+        W[i][j] = val[20 + i * 4 + j];
       }
     }
 
@@ -85,18 +87,23 @@ void nn_smc(){
   for (int i = 0; i < 5; i++) nn_input[i+5] = x_dot_n[i];
   for (int i = 0; i < 4; i++) nn_input[i+10] = u_n[i];
 
-  float mu[10];
-  for (int i = 0; i < 10; i++) {
-    float diff = 0.0f;
-    for (int j = 0; j < 14; j++) diff += pow(nn_input[j] - RBF_means[j][i], 2);
-    mu[i] = exp(-diff / (2.0f * pow(RBF_std[i][0], 2)));
+
+  for (int i=0; i<10; ++i) {
+      float sum = 0.0f;
+      for (int j=0; j<14; ++j) {
+          float d = nn_input[j] - RBF_means[j][i];
+          sum += d*d;                 // faster than pow(...,2)
+      }
+      float s = RBF_std[i][0];
+      mu[i] = expf(-sum / (2.0f * s * s));
   }
 
-  float Delta_hat[4];
+
+  
   for (int j = 0; j < 4; j++) {
     Delta_hat[j] = 0.0f;
     for (int i = 0; i < 10; i++) {
-      Delta_hat[j] += M[i][j] * mu[i];
+      Delta_hat[j] += W[i][j] * mu[i];
     }
   }
 
@@ -120,14 +127,15 @@ void NN_RBF_std(float RBF_std[10][1]){
 
 
 void send_to_simulink() {
-  uint8_t buf[3 + 10*4 + 14*10*4 + 4*4];
+  uint8_t buf[3 + 10*4 + 14*10*4 + 10*4];
   buf[0] = 0xAA;
   buf[1] = 0xBB;
   buf[2] = 0xCC;
 
   memcpy(&buf[3], &RBF_std[0][0], 40);       // 10 floats
   memcpy(&buf[43], &RBF_means[0][0], 560);   // 140 floats
-  memcpy(&buf[603], &Delta_hat[0], 16);      // 4 floats
+  // memcpy(&buf[603], &Delta_hat[0], 16);      // 4 floats
+  memcpy(&buf[603], &mu[0], 40);
 
   Serial.write(buf, sizeof(buf));
 }
