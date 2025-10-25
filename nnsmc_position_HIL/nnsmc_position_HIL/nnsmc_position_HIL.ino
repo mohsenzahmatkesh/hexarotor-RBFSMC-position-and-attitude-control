@@ -59,11 +59,12 @@ void receive_from_simulink() {
     thetades = val[18];
     psides   = val[19];
 
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 4; j++) {
-        W[i][j] = val[20 + i * 4 + j];
+    for (int j = 0; j < 4; j++) {
+      for (int i = 0; i < 10; i++) {
+        W[i][j] = val[20 + j * 10 + i];
       }
     }
+
 
     // float* M = &val[20];
     u1_prev  = val[60];
@@ -88,16 +89,16 @@ void nn_smc(){
   for (int i = 0; i < 4; i++) nn_input[i+10] = u_n[i];
 
 
-  for (int i=0; i<10; ++i) {
+  for (int i = 0; i < 10; i++) {
+      mu[i] = 0.0f;
       float sum = 0.0f;
-      for (int j=0; j<14; ++j) {
+      for (int j = 0; j < 14; ++j) {
           float d = nn_input[j] - RBF_means[j][i];
-          sum += d*d;                 // faster than pow(...,2)
+          sum += d * d;
       }
       float s = RBF_std[i][0];
       mu[i] = expf(-sum / (2.0f * s * s));
   }
-
 
   
   for (int j = 0; j < 4; j++) {
@@ -127,15 +128,15 @@ void NN_RBF_std(float RBF_std[10][1]){
 
 
 void send_to_simulink() {
-  uint8_t buf[3 + 10*4 + 14*10*4 + 10*4];
+  uint8_t buf[3 + 10*4 + 14*10*4 + 4*4];
   buf[0] = 0xAA;
   buf[1] = 0xBB;
   buf[2] = 0xCC;
 
   memcpy(&buf[3], &RBF_std[0][0], 40);       // 10 floats
   memcpy(&buf[43], &RBF_means[0][0], 560);   // 140 floats
-  // memcpy(&buf[603], &Delta_hat[0], 16);      // 4 floats
-  memcpy(&buf[603], &mu[0], 40);
+  memcpy(&buf[603], &Delta_hat[0], 16);      // 4 floats
+  // memcpy(&buf[603], &mu[0], 40);
 
   Serial.write(buf, sizeof(buf));
 }
