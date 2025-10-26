@@ -25,8 +25,35 @@ double xddes = 0, xdddes = 0;
 double yddes = 0, ydddes = 0;
 double zddes = 0, zdddes = 0;
 
-double Gamma = 100; 
 
+// SMC parameters
+double cz = 1;
+double eps1 = 0.8;
+double eta1 = 50;
+
+double cpsi = 1.5; 
+double eps2 = 0.8; 
+double eta2 = 50; 
+
+double ctheta = 1.5;
+double eps3 = 0.5;
+double eta3 = 50; 
+double c3 = 1;
+double c4 = 6;
+
+double chphi = 1.5;
+double eps4 = 0.5;
+double eta4 = 50; 
+double c7 = 1;
+double c8 = 6;
+
+
+
+
+
+
+// NN parameters
+double Gamma = 100; 
 float RBF_means[14][10];
 float RBF_std[10][1];
 float mu[10];
@@ -64,7 +91,6 @@ void receive_from_simulink() {
         W[i][j] = val[20 + j * 10 + i];
       }
     }
-
 
     // float* M = &val[20];
     u1_prev  = val[60];
@@ -107,6 +133,28 @@ void nn_smc(){
       Delta_hat[j] += W[i][j] * mu[i];
     }
   }
+
+  float s1 = cz*(z - zdes) + (zd - zddes);
+  float s11 = tanhf(s1);
+  float u1 = (mass/(cos(phi)*cos(theta)))*(cz*(zd-(zddes)) + zdddes + g + eps1*s11 + eta1*s1 + Delta_hat[3]);
+
+  float s2 = cpsi*(psides - psi) + (psiddes - psid);
+  float s22 = tanhf(s2);
+  float u4 = (Iz/c)*(cpsi*(psiddes-psid) + psidddes + eps2*s22 + eta2*s2 + 2*Delta_hat[2]);
+
+
+  float c1 = (11*mass/(cos(phi)*cos(psi)*cos(thetades))) * c3;
+  float c2 = (6*mass/(cos(phi)*cos(psi)*cos(thetades))) * c3;
+  float s3 = c1*(xddes - xd) + c2*(xdes - x) + c3*(thetaddes - thetad) + c4*(thetades - theta);
+  float s33 = tanhf(s3);
+  float u3 = (Iy/L)*((c1/c3)*(xdddes-xdd) + (c2/c3)*(xddes-xd) + thetadddes + (c4/c3)*(thetaddes-thetad)  + (1/c3)*(eps3*s33 + eta3*s3) + Delta_hat[1]);
+
+
+  float c5 = (-11*mass/((sin(phides)*sin(theta)*sin(psi))+(cos(phides)*cos(psi)))) * c7;
+  float c6 = (-6*mass/((sin(phides)*sin(theta)*sin(psi))+(cos(phides)*cos(psi)))) * c7;
+  float s4 = c5*(yddes - yd) + c6*(ydes - y) + c7*(phiddes - phid) + c8*(phides - phi);
+  float s44 = tanhf(s4);
+  float u2 = (Ix/L)*((c5/c7)*(ydddes-ydd) + (c6/c7)*(yddes-yd) + phidddes + (c8/c7)*(phiddes-phid) +  (1/c7)*(eps4*s44 + eta4*s4) + Delta_hat[0]);
 
 }
 
