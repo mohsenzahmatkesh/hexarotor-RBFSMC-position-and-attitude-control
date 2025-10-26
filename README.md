@@ -2,3 +2,6 @@
 
 Intelligent control has been extensively applied to aerial robots, which is important for autonomous flight applications. However, it is susceptible to noise and uncertainties when integrating different sensors and the nonlinear dynamics of the aerial robot. This paper proposes a robust, neural network-based adaptive hybrid control framework for a unified position and orientation tracking in Hexarotors. The proposed framework is designed to receive uncertain data from altitude and orientation sensors. It further tackles estimating these time-varying noises, uncertainties, and unmodeled dynamics by synergistically integrating a second-order sliding mode control (SMC) with radial basis function neural networks (RBFNNs). The RBFNN-augmented SMC dynamically adapts control commands, with stability proven via the Lyapunov method. These advancements ensure a simultaneous and accurate position and orientation tracking under varying conditions. The framework is validated through extensive software and hardware in the loop (SIL/HIL) simulations, showcasing significant improvements in tracking accuracy, disturbance rejection, and adaptability compared to traditional methods.
 
+For more information, please see:
+https://ieeexplore.ieee.org/abstract/document/11163349
+
