@@ -14,8 +14,6 @@ float phi, theta, psi;
 float phid, thetad, psid;
 float xdes, ydes, zdes;
 float phides, thetades, psides;
-float u1_prev, u2_prev, u3_prev, u4_prev;
-float W[10][4];   //10x4 matrix
 
 
 float phiddes = 0, phidddes = 0;
@@ -54,10 +52,17 @@ float RBF_means[14][10];
 float RBF_std[10][1];
 float mu[10];
 float Delta_hat[4];
+float s[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+float W_dot[10][4] = {0.0f};
+float W[10][4];   //10x4 matrix
+float W_sim[10][4];   //10x4 matrix
+float W_T[4][10];
+
+
 float u1, u2, u3, u4;
 float s1, s2, s3, s4;
 float s11, s22, s33, s44;
-
+float u1_prev, u2_prev, u3_prev, u4_prev;
 
 
 void receive_from_simulink() {
@@ -89,7 +94,7 @@ void receive_from_simulink() {
 
     for (int j = 0; j < 4; j++) {
       for (int i = 0; i < 10; i++) {
-        W[i][j] = val[20 + j * 10 + i];
+        W_sim[i][j] = val[20 + j * 10 + i];
       }
     }
 
@@ -127,11 +132,11 @@ void nn_smc(){
       mu[i] = expf(-sum / (2.0f * s * s));
   }
 
-  
+
   for (int j = 0; j < 4; j++) {
     Delta_hat[j] = 0.0f;
     for (int i = 0; i < 10; i++) {
-      Delta_hat[j] += W[i][j] * mu[i];
+      Delta_hat[j] += W_sim[i][j] * mu[i];
     }
   }
 
@@ -157,14 +162,31 @@ void nn_smc(){
   s44 = tanhf(s4);
   u2 = (Ix/L)*((c5/c7)*(ydddes-ydd) + (c6/c7)*(yddes-yd) + phidddes + (c8/c7)*(phiddes-phid) +  (1/c7)*(eps4*s44 + eta4*s4) + Delta_hat[0]);
 
-  float s[4] = {s4, s3, s2, s1};
-  float W_dot[10][4];
+  s[0] = s4;
+  s[1] = s3;
+  s[2] = s2;
+  s[3] = s1;
 
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 4; j++) {
       W_dot[i][j] = Gamma * mu[i] * s[j];
     }
   }
+
+  float dt = 0.005f;  // 200 Hz control loop
+
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 4; j++) {
+      W[i][j] += W_dot[i][j] * dt;
+    }
+  }
+  // float W_T[4][10];
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 4; j++) {
+      W_T[j][i] = W[i][j];
+    }
+  }
+
 }
 
 
