@@ -146,7 +146,7 @@ void nn_smc(){
 
   s2 = cpsi*(psides - psi) + (psiddes - psid);
   s22 = tanhf(s2);
-  u4 = (Iz/c)*(cpsi*(psiddes-psid) + psidddes + eps2*s22 + eta2*s2 + 2*Delta_hat[2]);
+  u4 = (Iz/c)*(cpsi*(psiddes-psid) + psidddes + eps2*s22 + eta2*s2 + 0.42*Delta_hat[2]);
 
 
   float c1 = (11*mass/(cos(phi)*cos(psi)*cos(thetades))) * c3;
