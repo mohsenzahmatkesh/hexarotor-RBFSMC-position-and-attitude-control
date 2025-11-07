@@ -225,7 +225,7 @@ void send_to_simulink() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(921600);
   NN_RBF_means(RBF_means);
   NN_RBF_std(RBF_std);
   
